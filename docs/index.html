@@ -227,7 +227,7 @@ a:hover{color:var(--green)}
     <p class="hero-sub">我自己每天在用的一些 AI Skill，都开源在这里</p>
     <a href="#skills" class="hero-cta">浏览所有 Skills <i class="fas fa-arrow-right"></i></a>
     <div class="hero-stats">
-      <div class="hero-stat"><div class="num">5</div><div class="label">Skills</div></div>
+      <div class="hero-stat"><div class="num">8</div><div class="label">Skills</div></div>
       <div class="hero-stat"><div class="num">跨平台</div><div class="label">macOS / Windows / Linux</div></div>
       <div class="hero-stat"><div class="num">MIT</div><div class="label">开源协议</div></div>
     </div>
@@ -363,7 +363,31 @@ const SKILLS_DATA=[
    triggers:['写文章','写稿子','帮我写','用我的风格写','公众号文章'],
    platforms:['macOS','Windows','Linux'],agents:['Claude Code','Codex','OpenCode','OpenClaw'],
    install:'https://github.com/KKKKhazix/khazix-skills/tree/main/khazix-writer',
-   detail:'<h4>风格内核</h4>节奏感（像跟朋友聊天）、论述中的故意打破、知识"聊着聊着顺手掏出来"、私人视角、敢下判断、文化升维、回环呼应。<h4>四层自检体系</h4>L1 硬性规则（禁用词/禁用标点/结构套话扫描）、L2 风格一致性（开头/节奏/口语化/标点二次确认）、L3 内容质量（观点支撑/知识输出/文化升维/对立面同理心）、L4 活人感终审（温度感/独特性/姿态/心流）。<h4>绝对禁区</h4>禁用"说白了""意味着什么""本质上""换句话说"；禁用冒号、破折号、双引号；禁用"首先…其次…最后"。'}
+   detail:'<h4>风格内核</h4>节奏感（像跟朋友聊天）、论述中的故意打破、知识"聊着聊着顺手掏出来"、私人视角、敢下判断、文化升维、回环呼应。<h4>四层自检体系</h4>L1 硬性规则（禁用词/禁用标点/结构套话扫描）、L2 风格一致性（开头/节奏/口语化/标点二次确认）、L3 内容质量（观点支撑/知识输出/文化升维/对立面同理心）、L4 活人感终审（温度感/独特性/姿态/心流）。<h4>绝对禁区</h4>禁用"说白了""意味着什么""本质上""换句话说"；禁用冒号、破折号、双引号；禁用"首先…其次…最后"。'},
+  {id:'webapp-testing',name:'Web 应用测试',en:'WebApp Testing',icon:'🧪',iconBg:'bg-green',
+   desc:'Web 应用自动化测试 Skill。自动检测页面可访问性、链接完整性、性能指标、安全头配置，生成 HTML 测试报告',
+   oneLiner:'一句话启动 Web 应用全面体检，自动检测可访问性/链接/性能/安全，生成 HTML 测试报告',
+   tags:['测试','Web','性能','安全','自动化'],tagColors:['t-green','','t-orange','t-red',''],
+   triggers:['测试网站','web测试','页面检测','网站体检','webapp test'],
+   platforms:['macOS','Windows','Linux'],agents:['Claude Code','Codex','OpenCode','Cursor'],
+   install:'https://github.com/KKKKhazix/khazix-skills/tree/main/webapp-testing',
+   detail:'<h4>核心能力</h4>HTTP 状态检测、响应时间测量、SSL 证书验证、安全头检查（X-Frame-Options、CSP、HSTS 等）、坏链检测（爬取前 20 个链接）、页面大小分析。<h4>输出</h4>JSON 结构化结果 + 可视化 HTML 测试报告。<h4>零依赖</h4>纯 Python 标准库实现，无需安装任何第三方包。'},
+  {id:'changelog-generator',name:'变更日志生成器',en:'Changelog Generator',icon:'📋',iconBg:'bg-purple',
+   desc:'Git 变更日志自动生成 Skill。从 git 历史自动生成用户友好的 Changelog，支持 Conventional Commits 解析、版本分类、Breaking Changes 高亮',
+   oneLiner:'从 git 历史自动生成用户友好的 Changelog，支持 Conventional Commits 和版本分类',
+   tags:['Git','变更日志','版本管理','自动化'],tagColors:['t-orange','','',''],
+   triggers:['生成变更日志','changelog','版本更新记录','release notes'],
+   platforms:['macOS','Windows','Linux'],agents:['Claude Code','Codex','OpenCode','Cursor'],
+   install:'https://github.com/KKKKhazix/khazix-skills/tree/main/changelog-generator',
+   detail:'<h4>核心能力</h4>解析 Conventional Commits（feat/fix/docs/chore/breaking）、按类型分组、Breaking Changes 高亮、支持 --from/--to 版本范围。<h4>输出</h4>Markdown 格式 Changelog，可直接写入 CHANGELOG.md。<h4>零依赖</h4>纯 Python 标准库实现。'},
+  {id:'security-scanner',name:'安全扫描器',en:'Security Scanner',icon:'🛡️',iconBg:'bg-red',
+   desc:'Web 应用安全扫描 Skill。对目标 Web 应用进行基础安全扫描，检测常见漏洞（信息泄露、不安全头、混合内容、过期 SSL），生成安全评估报告',
+   oneLiner:'一句话对 Web 应用做安全体检，检测信息泄露/不安全头/混合内容/过期 SSL，生成评估报告',
+   tags:['安全','扫描','漏洞检测','Web安全'],tagColors:['t-red','t-orange','t-red',''],
+   triggers:['安全扫描','安全检测','漏洞扫描','security scan'],
+   platforms:['macOS','Windows','Linux'],agents:['Claude Code','Codex','OpenCode','Cursor'],
+   install:'https://github.com/KKKKhazix/khazix-skills/tree/main/security-scanner',
+   detail:'<h4>检测项</h4>SSL/TLS 证书有效性及过期检测、安全响应头（CSP/HSTS/X-Frame-Options/X-Content-Type-Options/Referrer-Policy/Permissions-Policy）、信息泄露（Server 头/X-Powered-By/错误页面）、混合内容、Cookie 标志（Secure/HttpOnly/SameSite）。<h4>输出</h4>JSON 结构化结果，含严重级别（critical/warning/info）。<h4>零依赖</h4>纯 Python 标准库实现。'}
 ];
 
 function renderSkills(){

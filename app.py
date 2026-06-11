@@ -18,6 +18,7 @@
 import json
 import mimetypes
 import os
+import subprocess
 import sys
 import time
 import urllib.error
@@ -113,6 +114,45 @@ SKILLS = [
         "platform": ["macOS", "Windows", "Linux"],
         "agent_compatibility": ["Claude Code", "Codex", "OpenCode", "OpenClaw"],
         "skill_md_path": "khazix-writer/SKILL.md",
+    },
+    {
+        "id": "webapp-testing",
+        "name": "Web 应用测试",
+        "english_name": "WebApp Testing",
+        "icon": "🧪",
+        "description": "Web 应用自动化测试 Skill。让 Agent 用一句话启动 Web 应用测试，自动检测页面可访问性、链接完整性、性能指标、安全头配置，生成 HTML 测试报告",
+        "one_liner": "一句话启动 Web 应用全面体检，自动检测可访问性/链接/性能/安全，生成 HTML 测试报告",
+        "tags": ["测试", "Web", "性能", "安全", "自动化"],
+        "trigger_words": ["测试网站", "web测试", "页面检测", "网站体检", "webapp test"],
+        "platform": ["macOS", "Windows", "Linux"],
+        "agent_compatibility": ["Claude Code", "Codex", "OpenCode", "Cursor"],
+        "skill_md_path": "webapp-testing/SKILL.md",
+    },
+    {
+        "id": "changelog-generator",
+        "name": "变更日志生成器",
+        "english_name": "Changelog Generator",
+        "icon": "📋",
+        "description": "Git 变更日志自动生成 Skill。让 Agent 从 git 历史自动生成用户友好的 Changelog，支持 Conventional Commits 解析、版本分类、Breaking Changes 高亮",
+        "one_liner": "从 git 历史自动生成用户友好的 Changelog，支持 Conventional Commits 和版本分类",
+        "tags": ["Git", "变更日志", "版本管理", "自动化"],
+        "trigger_words": ["生成变更日志", "changelog", "版本更新记录", "release notes"],
+        "platform": ["macOS", "Windows", "Linux"],
+        "agent_compatibility": ["Claude Code", "Codex", "OpenCode", "Cursor"],
+        "skill_md_path": "changelog-generator/SKILL.md",
+    },
+    {
+        "id": "security-scanner",
+        "name": "安全扫描器",
+        "english_name": "Security Scanner",
+        "icon": "🛡️",
+        "description": "Web 应用安全扫描 Skill。让 Agent 对目标 Web 应用进行基础安全扫描，检测常见漏洞（信息泄露、不安全头、混合内容、过期 SSL），生成安全评估报告",
+        "one_liner": "一句话对 Web 应用做安全体检，检测信息泄露/不安全头/混合内容/过期 SSL，生成评估报告",
+        "tags": ["安全", "扫描", "漏洞检测", "Web安全"],
+        "trigger_words": ["安全扫描", "安全检测", "漏洞扫描", "security scan"],
+        "platform": ["macOS", "Windows", "Linux"],
+        "agent_compatibility": ["Claude Code", "Codex", "OpenCode", "Cursor"],
+        "skill_md_path": "security-scanner/SKILL.md",
     },
 ]
 
@@ -337,6 +377,24 @@ class SkillHandler(BaseHTTPRequestHandler):
             self._handle_scan()
             return
 
+        # API: Web 应用测试
+        if path == "/api/webapp-test":
+            _log_request("POST", self.path)
+            self._handle_webapp_test()
+            return
+
+        # API: 安全扫描
+        if path == "/api/security-scan":
+            _log_request("POST", self.path)
+            self._handle_security_scan()
+            return
+
+        # API: 变更日志生成
+        if path == "/api/changelog":
+            _log_request("POST", self.path)
+            self._handle_changelog()
+            return
+
         _log_request("POST", self.path, 404)
         self._send_error(404, "Not Found")
 
@@ -388,6 +446,94 @@ class SkillHandler(BaseHTTPRequestHandler):
         except Exception as e:
             self._send_error(500, f"扫描失败: {e}")
 
+    def _read_json_body(self):
+        """读取 POST 请求的 JSON body。"""
+        length = int(self.headers.get("Content-Length", 0))
+        if length == 0:
+            return {}
+        raw = self.rfile.read(length)
+        return json.loads(raw.decode("utf-8"))
+
+    def _handle_webapp_test(self):
+        """执行 Web 应用健康检查。"""
+        try:
+            body = self._read_json_body()
+            url = body.get("url", "")
+            if not url:
+                self._send_error(400, "Missing required parameter: url")
+                return
+            script = str(BASE_DIR / "webapp-testing" / "scripts" / "health_check.py")
+            result = subprocess.run(
+                [sys.executable, script, url],
+                capture_output=True, text=True, timeout=60,
+            )
+            try:
+                data = json.loads(result.stdout)
+            except json.JSONDecodeError:
+                self._send_error(500, f"脚本输出非有效 JSON: {result.stdout[:500] or result.stderr[:500]}")
+                return
+            self._send_json(200, data)
+        except subprocess.TimeoutExpired:
+            self._send_error(504, "Web 应用测试超时（60s）")
+        except Exception as e:
+            self._send_error(500, f"Web 应用测试失败: {e}")
+
+    def _handle_security_scan(self):
+        """执行安全扫描。"""
+        try:
+            body = self._read_json_body()
+            url = body.get("url", "")
+            if not url:
+                self._send_error(400, "Missing required parameter: url")
+                return
+            script = str(BASE_DIR / "security-scanner" / "scripts" / "scan_security.py")
+            result = subprocess.run(
+                [sys.executable, script, url],
+                capture_output=True, text=True, timeout=60,
+            )
+            try:
+                data = json.loads(result.stdout)
+            except json.JSONDecodeError:
+                self._send_error(500, f"脚本输出非有效 JSON: {result.stdout[:500] or result.stderr[:500]}")
+                return
+            self._send_json(200, data)
+        except subprocess.TimeoutExpired:
+            self._send_error(504, "安全扫描超时（60s）")
+        except Exception as e:
+            self._send_error(500, f"安全扫描失败: {e}")
+
+    def _handle_changelog(self):
+        """执行变更日志生成。"""
+        try:
+            body = self._read_json_body()
+            repo_path = body.get("repo_path", "")
+            from_ref = body.get("from_ref", "")
+            to_ref = body.get("to_ref", "")
+            script = str(BASE_DIR / "changelog-generator" / "scripts" / "gen_changelog.py")
+            cmd = [sys.executable, script]
+            if repo_path:
+                cmd.append(repo_path)
+            if from_ref:
+                cmd.append(f"--from={from_ref}")
+            if to_ref:
+                cmd.append(f"--to={to_ref}")
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=60,
+                cwd=str(BASE_DIR),
+            )
+            # changelog 脚本输出 Markdown，包装为 JSON
+            output = result.stdout.strip()
+            if output:
+                data = {"changelog": output, "format": "markdown"}
+            else:
+                err = result.stderr.strip() or "No output"
+                data = {"error": err, "changelog": ""}
+            self._send_json(200, data)
+        except subprocess.TimeoutExpired:
+            self._send_error(504, "变更日志生成超时（60s）")
+        except Exception as e:
+            self._send_error(500, f"变更日志生成失败: {e}")
+
 
 # ---------------------------------------------------------------------------
 # 启动
@@ -405,6 +551,9 @@ def main():
     print(f"  GET  /api/aihot/search?q=kw  — AI HOT 搜索")
     print(f"  POST /api/scan               — 执行存储扫描")
     print(f"  GET  /api/report             — 存储分析报告")
+    print(f"  POST /api/webapp-test        — Web 应用测试")
+    print(f"  POST /api/security-scan      — 安全扫描")
+    print(f"  POST /api/changelog          — 变更日志生成")
     print(f"按 Ctrl+C 停止服务")
     try:
         server.serve_forever()
