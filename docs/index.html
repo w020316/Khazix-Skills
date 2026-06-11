@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khazix Skills — 数字生命卡兹克的 AI Skills 开源合集</title>
+<meta name="description" content="数字生命卡兹克每天在用的 AI Skill 开源合集，包含存储分析、AI资讯、文档同步、深度研究、公众号写作等工具">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--primary:#165DFF;--primary-dark:#0e42d2;--primary-light:#4080ff;--green:#00b42a;--green-bg:rgba(0,180,42,.1);--orange:#ff7d00;--orange-bg:rgba(255,125,0,.1);--red:#f53f3f;--red-bg:rgba(245,63,63,.1);--purple:#722ed1;--purple-bg:rgba(114,46,209,.1);--yellow:#fadb14;--blue:#3498db;--blue-bg:rgba(52,152,219,.1);--radius:14px;--radius-sm:8px;--shadow:0 2px 12px rgba(0,0,0,.08);--shadow-lg:0 8px 32px rgba(0,0,0,.12);--font:system-ui,-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;--mono:"SF Mono","Fira Code",ui-monospace,monospace;--ease:cubic-bezier(.4,0,.2,1)}
+[data-theme="dark"]{--bg:#0d1117;--bg2:#161b22;--card:#1c2333;--card-h:#222d42;--nav:rgba(13,17,23,.88);--text:#e6edf3;--text2:#8b949e;--text3:#484f58;--border:#30363d;--sk:#1c2333;--sk2:#263045}
+[data-theme="light"]{--bg:#f6f8fa;--bg2:#fff;--card:#fff;--card-h:#f3f4f6;--nav:rgba(246,248,250,.88);--text:#1f2328;--text2:#656d76;--text3:#afb8c1;--border:#d0d7de;--sk:#e1e4e8;--sk2:#f3f4f6}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s var(--ease),color .3s var(--ease);overflow-x:hidden}
+a{color:var(--primary-light);text-decoration:none;transition:color .2s}
+a:hover{color:var(--green)}
+::selection{background:var(--primary);color:#fff}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--nav);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border);transition:background .3s}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px}
+.nav-logo{display:flex;align-items:center;gap:10px;font-size:1.15rem;font-weight:700;color:var(--text);cursor:pointer}
+.nav-logo span{font-size:1.4rem}
+.nav-links{display:flex;gap:4px;list-style:none}
+.nav-links a{padding:8px 16px;border-radius:var(--radius-sm);color:var(--text2);font-size:.9rem;font-weight:500;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:var(--card)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.icon-btn{width:38px;height:38px;border:none;border-radius:50%;background:var(--card);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s}
+.icon-btn:hover{color:var(--orange);background:var(--card-h)}
+.hamburger{display:none}
+
+/* Demo Banner */
+.demo-banner{background:rgba(22,93,255,.08);border-bottom:1px solid rgba(22,93,255,.15);padding:10px 24px;text-align:center;font-size:.84rem;color:var(--text2);position:relative;z-index:998;margin-top:64px}
+.demo-banner a{color:var(--primary-light);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.demo-banner a:hover{color:var(--green)}
+
+/* Hero */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:100px 24px 80px}
+.hero-mesh{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(22,93,255,.2) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 20% 80%,rgba(0,180,42,.08) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 20%,rgba(255,125,0,.06) 0%,transparent 60%);animation:meshPulse 10s ease-in-out infinite alternate}
+@keyframes meshPulse{0%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.03)}100%{opacity:.7;transform:scale(1)}}
+.hero-content{position:relative;z-index:2;text-align:center;max-width:740px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:20px;background:rgba(22,93,255,.12);border:1px solid rgba(22,93,255,.25);color:var(--primary-light);font-size:.85rem;font-weight:500;margin-bottom:24px}
+.hero-badge i{font-size:.7rem}
+.hero-title{font-size:clamp(2.6rem,7vw,4.2rem);font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-bottom:20px;background:linear-gradient(135deg,var(--text) 0%,var(--primary-light) 50%,var(--green) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(1rem,2.5vw,1.2rem);color:var(--text2);margin-bottom:36px;max-width:540px;margin-left:auto;margin-right:auto}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border-radius:var(--radius);background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;font-size:1rem;font-weight:600;border:none;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(22,93,255,.35)}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(22,93,255,.45);color:#fff}
+.hero-cta i{transition:transform .3s}.hero-cta:hover i{transform:translateX(4px)}
+.hero-stats{display:flex;justify-content:center;gap:40px;margin-top:48px}
+.hero-stat{text-align:center}
+.hero-stat .num{font-size:1.8rem;font-weight:800;color:var(--primary-light)}
+.hero-stat .label{font-size:.82rem;color:var(--text3);margin-top:2px}
+
+/* Section */
+.section{padding:100px 24px;max-width:1200px;margin:0 auto}
+.sec-header{text-align:center;margin-bottom:56px}
+.sec-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 14px;border-radius:20px;background:rgba(22,93,255,.1);color:var(--primary-light);font-size:.78rem;font-weight:600;letter-spacing:.04em;margin-bottom:14px}
+.sec-title{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:700;margin-bottom:10px}
+.sec-desc{color:var(--text2);font-size:1rem;max-width:520px;margin:0 auto}
+
+/* Skills Grid */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
+.skill-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:all .3s var(--ease);position:relative;overflow:hidden}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--green));opacity:0;transition:opacity .3s}
+.skill-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--primary)}
+.skill-card:hover::before{opacity:1}
+.sk-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.sk-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+.sk-icon.bg-blue{background:var(--blue-bg)}.sk-icon.bg-green{background:var(--green-bg)}.sk-icon.bg-orange{background:var(--orange-bg)}.sk-icon.bg-purple{background:var(--purple-bg)}.sk-icon.bg-red{background:var(--red-bg)}
+.sk-info{flex:1;min-width:0}
+.sk-name{font-size:1.15rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.sk-en{font-size:.78rem;color:var(--text3);font-weight:400}
+.sk-desc{color:var(--text2);font-size:.9rem;line-height:1.6;margin-bottom:14px}
+.sk-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.sk-tag{padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500;background:rgba(22,93,255,.08);color:var(--primary-light);border:1px solid rgba(22,93,255,.15)}
+.sk-tag.t-green{background:var(--green-bg);color:var(--green);border-color:rgba(0,180,42,.2)}
+.sk-tag.t-orange{background:var(--orange-bg);color:var(--orange);border-color:rgba(255,125,0,.2)}
+.sk-tag.t-red{background:var(--red-bg);color:var(--red);border-color:rgba(245,63,63,.2)}
+.sk-tag.t-purple{background:var(--purple-bg);color:var(--purple);border-color:rgba(114,46,209,.2)}
+.sk-triggers{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px}
+.sk-trigger{padding:2px 8px;border-radius:6px;font-size:.7rem;color:var(--text3);background:var(--bg2);border:1px solid var(--border)}
+.sk-actions{display:flex;gap:8px;flex-wrap:wrap}
+.sk-btn{padding:8px 16px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:var(--font);border:1px solid var(--border);background:transparent;color:var(--text2)}
+.sk-btn:hover{border-color:var(--primary);color:var(--primary);background:rgba(22,93,255,.06)}
+.sk-btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.sk-btn.primary:hover{background:var(--primary-dark)}
+.sk-detail{max-height:0;overflow:hidden;transition:max-height .4s var(--ease),opacity .3s;opacity:0}
+.sk-detail.open{max-height:600px;opacity:1;margin-top:16px}
+.sk-detail-inner{padding:18px;border-radius:var(--radius-sm);background:var(--bg2);border:1px solid var(--border);font-size:.86rem;color:var(--text2);line-height:1.8}
+.sk-detail-inner h4{color:var(--text);font-size:.92rem;margin:12px 0 6px}.sk-detail-inner h4:first-child{margin-top:0}
+.sk-detail-inner code{font-family:var(--mono);font-size:.82rem;background:var(--card);padding:2px 6px;border-radius:4px}
+.sk-install{margin-top:10px;padding:10px 14px;border-radius:var(--radius-sm);background:var(--card);font-family:var(--mono);font-size:.78rem;color:var(--green);word-break:break-all;border:1px solid var(--border)}
+
+/* AIHOT */
+.aihot-sec{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.aihot-inner{max-width:1200px;margin:0 auto;padding:100px 24px}
+.aihot-toolbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:16px}
+.aihot-tab{padding:8px 20px;border-radius:20px;background:var(--card);border:1px solid var(--border);color:var(--text2);font-size:.86rem;cursor:pointer;transition:all .2s;font-family:var(--font);font-weight:500}
+.aihot-tab:hover{border-color:var(--primary);color:var(--primary)}
+.aihot-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.aihot-search{max-width:480px;margin:0 auto 32px;position:relative}
+.aihot-search input{width:100%;padding:12px 16px 12px 42px;border-radius:var(--radius);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.92rem;font-family:var(--font);transition:border-color .2s;outline:none}
+.aihot-search input:focus{border-color:var(--primary)}
+.aihot-search i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:.9rem}
+.aihot-daily{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:24px}
+.aihot-daily-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.aihot-daily-head i{color:var(--orange);font-size:1.1rem}
+.aihot-daily-head h3{font-size:1.05rem;font-weight:600}
+.aihot-daily-lead{color:var(--text2);font-size:.9rem;line-height:1.7;margin-bottom:14px;padding-left:14px;border-left:3px solid var(--orange)}
+.aihot-list{display:flex;flex-direction:column;gap:12px}
+.aihot-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;transition:all .2s}
+.aihot-card:hover{border-color:var(--primary);box-shadow:var(--shadow)}
+.aihot-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px}
+.aihot-card-title{font-size:1rem;font-weight:600;line-height:1.5;flex:1}
+.aihot-card-title a{color:var(--text)}.aihot-card-title a:hover{color:var(--primary-light)}
+.cat-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;font-size:.7rem;font-weight:600;white-space:nowrap;flex-shrink:0}
+.cat-badge.ai-models{background:var(--blue-bg);color:var(--blue)}.cat-badge.ai-products{background:var(--green-bg);color:var(--green)}.cat-badge.industry{background:var(--orange-bg);color:var(--orange)}.cat-badge.paper{background:var(--purple-bg);color:var(--purple)}.cat-badge.tip{background:rgba(250,219,20,.12);color:#d4a017}
+.aihot-card-meta{display:flex;align-items:center;gap:12px;font-size:.78rem;color:var(--text3);margin-bottom:8px}
+.aihot-card-meta i{font-size:.65rem}
+.aihot-card-summary{font-size:.88rem;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.aihot-loadmore{text-align:center;margin-top:24px}
+.aihot-loadmore button{padding:10px 28px;border-radius:var(--radius-sm);background:var(--card);border:1px solid var(--border);color:var(--text2);font-size:.88rem;cursor:pointer;font-family:var(--font);transition:all .2s}
+.aihot-loadmore button:hover{border-color:var(--primary);color:var(--primary)}
+
+/* Skeleton */
+.skel-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px}
+.skel-line{height:14px;border-radius:6px;background:linear-gradient(90deg,var(--sk) 25%,var(--sk2) 50%,var(--sk) 75%);background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite;margin-bottom:10px}
+.skel-line.w70{width:70%}.skel-line.w50{width:50%}.skel-line.w90{width:90%}.skel-line.w40{width:40%}.skel-line.hlg{height:18px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.msg-box{text-align:center;padding:48px 20px;color:var(--text2)}
+.msg-box i{font-size:2rem;margin-bottom:12px;display:block}
+.msg-box .retry-btn{margin-top:16px;padding:10px 24px;border-radius:var(--radius-sm);background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:.88rem;font-family:var(--font);transition:background .2s}
+.msg-box .retry-btn:hover{background:var(--primary-dark)}
+
+/* Storage */
+.storage-area{text-align:center;margin-bottom:40px}
+.scan-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 36px;border-radius:var(--radius);background:linear-gradient(135deg,var(--green),#009a25);color:#fff;font-size:1rem;font-weight:600;border:none;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(0,180,42,.3);font-family:var(--font)}
+.scan-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,180,42,.4)}
+.scan-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.scan-progress{display:none;margin-top:24px}.scan-progress.active{display:block}
+.scan-bar{width:100%;max-width:400px;height:6px;background:var(--border);border-radius:3px;margin:0 auto 10px;overflow:hidden}
+.scan-fill{height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,var(--green),var(--primary));transition:width .5s}
+.scan-text{color:var(--text2);font-size:.86rem}
+.scan-results{display:none}.scan-results.active{display:block}
+.disk-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:28px}
+.disk-card h3{margin-bottom:16px;font-size:1.05rem}
+.disk-bar-wrap{margin:16px 0}
+.disk-bar{width:100%;height:20px;background:var(--border);border-radius:10px;overflow:hidden;display:flex}
+.disk-bar i{display:block;height:100%}
+.disk-bar .seg-green{background:var(--green)}.disk-bar .seg-yellow{background:var(--orange)}.disk-bar .seg-red{background:var(--red)}.disk-bar .seg-blue{background:var(--primary)}.disk-bar .seg-free{background:transparent}
+.disk-bar i+i{border-left:1px solid rgba(255,255,255,.2)}
+.disk-stats{display:flex;flex-wrap:wrap;gap:16px;font-size:.86rem;color:var(--text2);margin-top:12px}
+.disk-stats .stat-label{color:var(--text3);margin-right:4px}
+.disk-sys{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px 24px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:.84rem;color:var(--text2)}
+.disk-sys span{color:var(--text3)}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:.82rem;font-weight:600;background:var(--bg2);border:1px solid var(--border)}
+.pill .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.pill .dot.green{background:var(--green)}.pill .dot.yellow{background:var(--orange)}.pill .dot.red{background:var(--red)}.pill .dot.blue{background:var(--primary)}
+.tier-sec{margin-bottom:24px}
+.tier-head{display:flex;align-items:center;gap:10px;font-size:1rem;font-weight:600;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.tier-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:6px;cursor:pointer;transition:all .2s}
+.tier-item:hover{border-color:var(--primary)}
+.tier-item-top{display:flex;align-items:center;justify-content:space-between}
+.tier-item-name{font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tier-item-size{font-weight:700;color:var(--primary);font-size:.9rem;margin-left:12px;white-space:nowrap}
+.tier-item-chev{color:var(--text3);margin-left:8px;transition:transform .2s;font-size:.7rem}
+.tier-item.open .tier-item-chev{transform:rotate(180deg)}
+.tier-item-body{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.84rem;color:var(--text2);line-height:1.7}
+.tier-item.open .tier-item-body{max-height:200px;padding-top:10px}
+
+/* Footer */
+.footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;background:var(--bg2)}
+.footer-brand{font-size:1.05rem;font-weight:700;margin-bottom:8px}
+.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:14px;flex-wrap:wrap}
+.footer-links a{color:var(--text2);font-size:.88rem;display:flex;align-items:center;gap:6px}
+.footer-links a:hover{color:var(--primary-light)}
+.footer-copy{font-size:.78rem;color:var(--text3)}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* Responsive */
+@media(max-width:768px){
+  .nav-links{display:none}.hamburger{display:flex;align-items:center;justify-content:center}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--nav);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px}
+  .skills-grid{grid-template-columns:1fr}.hero-stats{gap:24px}
+  .section{padding:60px 16px}.aihot-inner{padding:60px 16px}.hero{padding:100px 16px 60px}
+}
+@media(max-width:480px){.hero-title{font-size:2rem}.aihot-toolbar{gap:4px}.aihot-tab{padding:6px 12px;font-size:.8rem}}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="scrollTo('hero')"><span>🧰</span> Khazix Skills</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" class="active" data-sec="hero">首页</a></li>
+      <li><a href="#skills" data-sec="skills">Skills</a></li>
+      <li><a href="#aihot" data-sec="aihot">AI HOT</a></li>
+      <li><a href="#storage" data-sec="storage">存储分析</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeBtn" aria-label="切换主题"><i class="fas fa-moon"></i></button>
+      <button class="icon-btn hamburger" id="menuBtn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Demo Banner -->
+<div class="demo-banner">
+  🌐 在线展示版 | 部分功能需本地运行 · <code style="font-family:var(--mono);font-size:.82rem;background:var(--card);padding:2px 6px;border-radius:4px">python app.py</code> · <a href="https://github.com/KKKKhazix/khazix-skills" target="_blank">完整体验</a>
+</div>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-mesh"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fas fa-bolt"></i> 数字生命卡兹克 · Agent Skills 开放标准</div>
+    <h1 class="hero-title">Khazix Skills</h1>
+    <p class="hero-sub">我自己每天在用的一些 AI Skill，都开源在这里</p>
+    <a href="#skills" class="hero-cta">浏览所有 Skills <i class="fas fa-arrow-right"></i></a>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">5</div><div class="label">Skills</div></div>
+      <div class="hero-stat"><div class="num">跨平台</div><div class="label">macOS / Windows / Linux</div></div>
+      <div class="hero-stat"><div class="num">MIT</div><div class="label">开源协议</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section class="section" id="skills">
+  <div class="sec-header reveal">
+    <div class="sec-tag"><i class="fas fa-cube"></i> SKILLS</div>
+    <h2 class="sec-title">开源 Skills 合集</h2>
+    <p class="sec-desc">每个 Skill 都是我日常高频使用的工具，开箱即用，全部遵循 Agent Skills 开放标准</p>
+  </div>
+  <div class="skills-grid" id="skillsGrid"></div>
+</section>
+
+<!-- AI HOT -->
+<section class="aihot-sec" id="aihot">
+  <div class="aihot-inner">
+    <div class="sec-header reveal">
+      <div class="sec-tag"><i class="fas fa-fire"></i> AI HOT</div>
+      <h2 class="sec-title">AI 热门资讯</h2>
+      <p class="sec-desc">实时追踪 AI 领域最新动态，数据来自 aihot.virxact.com</p>
+    </div>
+    <div class="aihot-toolbar reveal" id="aihotTabs">
+      <button class="aihot-tab active" data-cat="">全部</button>
+      <button class="aihot-tab" data-cat="ai-models">模型发布</button>
+      <button class="aihot-tab" data-cat="ai-products">产品更新</button>
+      <button class="aihot-tab" data-cat="industry">行业动态</button>
+      <button class="aihot-tab" data-cat="paper">论文研究</button>
+      <button class="aihot-tab" data-cat="tip">技巧观点</button>
+    </div>
+    <div class="aihot-search reveal">
+      <i class="fas fa-search"></i>
+      <input type="text" id="aihotSearch" placeholder="搜索 AI 资讯（如 OpenAI、Sora、RAG…）">
+    </div>
+    <div id="aihotDaily"></div>
+    <div class="aihot-list" id="aihotList"></div>
+    <div class="aihot-loadmore" id="aihotMore" style="display:none">
+      <button onclick="loadMoreAIHot()">加载更多</button>
+    </div>
+  </div>
+</section>
+
+<!-- Storage -->
+<section class="section" id="storage">
+  <div class="sec-header reveal">
+    <div class="sec-tag"><i class="fas fa-hard-drive"></i> STORAGE</div>
+    <h2 class="sec-title">磁盘存储分析</h2>
+    <p class="sec-desc">一键扫描磁盘，🟢🟡🔴 三色分级，轻松清理</p>
+  </div>
+  <div class="storage-area reveal">
+    <button class="scan-btn" id="scanBtn" onclick="startScan()"><i class="fas fa-play-circle"></i> 查看演示</button>
+    <div class="scan-progress" id="scanProgress">
+      <div class="scan-bar"><div class="scan-fill" id="scanFill"></div></div>
+      <div class="scan-text" id="scanText">正在加载演示数据...</div>
+    </div>
+  </div>
+  <div class="scan-results" id="scanResults"></div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-brand">Made by @KKKKhazix</div>
+  <div class="footer-links">
+    <a href="https://github.com/KKKKhazix" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+    <a href="https://aihot.virxact.com" target="_blank"><i class="fas fa-fire"></i> aihot.virxact.com</a>
+    <a href="https://agentskills.io" target="_blank"><i class="fas fa-puzzle-piece"></i> AgentSkills</a>
+  </div>
+  <div class="footer-copy">MIT License &copy; 2024-2026 数字生命卡兹克</div>
+</footer>
+
+<script>
+/* ===== Theme ===== */
+const html=document.documentElement,themeBtn=document.getElementById('themeBtn');
+function setTheme(t){html.dataset.theme=t;localStorage.setItem('theme',t);themeBtn.querySelector('i').className=t==='dark'?'fas fa-moon':'fas fa-sun'}
+setTheme(localStorage.getItem('theme')||'dark');
+themeBtn.onclick=()=>setTheme(html.dataset.theme==='dark'?'light':'dark');
+
+/* ===== Mobile Menu ===== */
+const menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+menuBtn.onclick=()=>{navLinks.classList.toggle('open');menuBtn.querySelector('i').className=navLinks.classList.contains('open')?'fas fa-times':'fas fa-bars'};
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuBtn.querySelector('i').className='fas fa-bars'}));
+
+/* ===== Scroll ===== */
+function scrollTo(id){const el=document.getElementById(id);el&&el.scrollIntoView({behavior:'smooth'})}
+const secs=document.querySelectorAll('section[id],.hero'),navAs=document.querySelectorAll('.nav-links a');
+function updateNav(){let cur='hero';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-100)cur=s.id||'hero'});navAs.forEach(a=>{a.classList.toggle('active',a.dataset.sec===cur)})}
+window.addEventListener('scroll',updateNav,{passive:true});
+
+/* ===== Reveal ===== */
+const revObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+/* ===== Skills Data & Render ===== */
+const SKILLS_DATA=[
+  {id:'storage-analyzer',name:'存储分析',en:'Storage Analyzer',icon:'💾',iconBg:'bg-blue',
+   desc:'macOS / Windows 只读存储分析助手。扫描整机磁盘占用，找出占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可起本地服务在网页上一键删除（移废纸篓/直接删）。扫描全程只读。',
+   oneLiner:'一句话扫描整机磁盘，三色分级给清理决策，网页上一键移废纸篓',
+   tags:['macOS','Windows','磁盘清理','实用工具'],tagColors:['','t-green','t-orange','t-green'],
+   triggers:['存储分析','磁盘满了','C盘满了','清理空间','storage analysis'],
+   platforms:['macOS','Windows'],agents:['Claude Code','Codex','OpenCode','OpenClaw'],
+   install:'https://github.com/KKKKhazix/khazix-skills/tree/main/storage-analyzer',
+   detail:'<h4>核心特性</h4>只读扫描，绝不擅自动手。三色分级：🟢纯缓存可自动清、🟡含用户数据需人工判断、🔴运行中应用核心数据谨慎清理。生成交互式 HTML 报告，命令一键复制，支持网页上一键移废纸篓/删除（每次都有二次确认弹窗）。本地服务跑在 127.0.0.1 + 随机端口 + token，三套白名单分级安全模型。<h4>跨平台</h4>macOS 完整实测；Windows 代码就绪（多盘符已支持）。'},
+  {id:'aihot',name:'AI HOT',en:'AI HOT',icon:'🔥',iconBg:'bg-orange',
+   desc:'AI HOT (aihot.virxact.com) 中文 AI 资讯查询 Skill。让 Agent 用一句话拿到每天的 AI 日报和全部 AI 动态，无需 API Key、无需配 MCP server。',
+   oneLiner:'让 Agent 用一句话拿到每天的 AI 日报和全部 AI 动态，无需 API Key',
+   tags:['API','资讯','AI新闻','零配置'],tagColors:['t-orange','','t-green','t-green'],
+   triggers:['AI资讯','AI日报','AI热点','今天AI圈','aihot'],
+   platforms:['macOS','Windows','Linux'],agents:['Claude Code','Codex','Cursor','Gemini CLI','OpenCode','Cline','Windsurf'],
+   install:'https://github.com/KKKKhazix/khazix-skills/tree/main/aihot',
+   detail:'<h4>能力</h4>拉今日/指定日期的 AI HOT 日报；拉精选条目流；按分类拉条目（模型/产品/行业/论文/技巧）；按时间窗口拉；关键词/公司/主题搜索。<h4>数据源</h4>aihot.virxact.com 公开匿名 REST API，零配置即开即用。<h4>路由优先级</h4>默认走精选 mode=selected；仅当用户明确说"日报"才走 daily；仅当用户说"全部/完整/所有"才走 mode=all。'},
+  {id:'neat-freak',name:'洁癖',en:'Neat Freak',icon:'🧹',iconBg:'bg-purple',
+   desc:'End-of-session knowledge cleanup with OCD-level rigor — reconciles project docs (CLAUDE.md, README.md, docs/) and agent memory against the code so nothing rots.',
+   oneLiner:'干完活跑一下 /neat，自动把你这次改的东西跟项目文档、CLAUDE.md、Agent 记忆全部对齐',
+   tags:['文档','记忆','同步','整理'],tagColors:['t-purple','t-orange','',''],
+   triggers:['/neat','同步一下','整理文档','sync up','整理一下'],
+   platforms:['macOS','Windows','Linux'],agents:['Claude Code','Codex','OpenCode','OpenClaw'],
+   install:'https://github.com/KKKKhazix/khazix-skills/tree/main/neat-freak',
+   detail:'<h4>三层知识同步</h4>Agent 记忆系统（跨会话复用）、项目根 CLAUDE.md/AGENTS.md（给当前 AI 看的）、项目 docs/ + README（给同事和其他人看的）。三层受众不同，职责不重叠。<h4>防膨胀</h4>CLAUDE.md 超 300 行先精简；记忆索引超 150 行先清理。<h4>变更影响矩阵</h4>新增 API → 路由清单 + integration-guide + architecture；新增环境变量 → runbook + 项目根 markdown；跨项目改动 → 上下游两边 docs 都要对齐。'},
+  {id:'hv-analysis',name:'横纵分析法',en:'HV Analysis',icon:'🔭',iconBg:'bg-red',
+   desc:'横纵分析法深度研究 Skill。纵向追踪发展历程，横向对比竞品，交汇产出洞察，最终生成万字 PDF 研究报告。',
+   oneLiner:'想搞懂一个产品/公司/概念是怎么回事，丢给它，给你一份万字 PDF 研究报告',
+   tags:['研究','竞品分析','PDF','深度分析'],tagColors:['t-red','t-orange','t-purple','t-orange'],
+   triggers:['横纵分析','研究一下','竞品分析','深度研究','调研一下'],
+   platforms:['macOS','Windows','Linux'],agents:['Claude Code','Codex','OpenCode','OpenClaw'],
+   install:'https://github.com/KKKKhazix/khazix-skills/tree/main/hv-analysis',
+   detail:'<h4>方法论</h4>由数字生命卡兹克提出，融合索绪尔历时-共时分析、社会科学纵向-横截面研究、商学院案例研究法与竞争战略分析。<h4>双轴分析</h4>纵轴：从诞生到当下的完整生命历程（6000-15000字叙事）；横轴：当下时间截面与竞品系统性对比（3000-10000字）；交汇：两条线交叉产出独到洞察（1500-3000字）。<h4>输出</h4>排版精美的 PDF 研究报告，总计 10,000-30,000 字。自带 md_to_pdf.py 转换脚本。'},
+  {id:'khazix-writer',name:'卡兹克写作',en:'Khazix Writer',icon:'✍️',iconBg:'bg-green',
+   desc:'数字生命卡兹克的公众号长文写作 Skill。装上之后，Agent 用卡兹克的口吻和节奏写公众号长文。',
+   oneLiner:'装上之后，Agent 用我的口吻和节奏写公众号长文',
+   tags:['写作','风格','公众号','长文'],tagColors:['t-green','t-orange','',''],
+   triggers:['写文章','写稿子','帮我写','用我的风格写','公众号文章'],
+   platforms:['macOS','Windows','Linux'],agents:['Claude Code','Codex','OpenCode','OpenClaw'],
+   install:'https://github.com/KKKKhazix/khazix-skills/tree/main/khazix-writer',
+   detail:'<h4>风格内核</h4>节奏感（像跟朋友聊天）、论述中的故意打破、知识"聊着聊着顺手掏出来"、私人视角、敢下判断、文化升维、回环呼应。<h4>四层自检体系</h4>L1 硬性规则（禁用词/禁用标点/结构套话扫描）、L2 风格一致性（开头/节奏/口语化/标点二次确认）、L3 内容质量（观点支撑/知识输出/文化升维/对立面同理心）、L4 活人感终审（温度感/独特性/姿态/心流）。<h4>绝对禁区</h4>禁用"说白了""意味着什么""本质上""换句话说"；禁用冒号、破折号、双引号；禁用"首先…其次…最后"。'}
+];
+
+function renderSkills(){
+  const grid=document.getElementById('skillsGrid');
+  grid.innerHTML=SKILLS_DATA.map((s,i)=>`
+    <div class="skill-card reveal" style="transition-delay:${i*80}ms">
+      <div class="sk-head">
+        <div class="sk-icon ${s.iconBg}">${s.icon}</div>
+        <div class="sk-info">
+          <div class="sk-name">${s.name} <span class="sk-en">${s.en}</span></div>
+        </div>
+      </div>
+      <div class="sk-desc">${s.oneLiner}</div>
+      <div class="sk-tags">${s.tags.map((t,j)=>`<span class="sk-tag ${s.tagColors[j]||''}">${t}</span>`).join('')}</div>
+      <div class="sk-triggers">${s.triggers.map(t=>`<span class="sk-trigger">${t}</span>`).join('')}</div>
+      <div class="sk-actions">
+        <button class="sk-btn" onclick="toggleDetail(this)"><i class="fas fa-chevron-down" style="font-size:.65rem;margin-right:4px;transition:transform .2s"></i>了解更多</button>
+        <button class="sk-btn primary" onclick="copyInstall('${s.install}',this)"><i class="fas fa-download" style="margin-right:4px"></i>安装</button>
+      </div>
+      <div class="sk-detail">
+        <div class="sk-detail-inner">
+          ${s.detail}
+          <div class="sk-install"><i class="fas fa-terminal" style="margin-right:6px"></i>帮我安装这个 skill：${s.install}</div>
+        </div>
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('.skill-card.reveal').forEach(el=>revObs.observe(el));
+}
+renderSkills();
+
+function toggleDetail(btn){
+  const detail=btn.closest('.skill-card').querySelector('.sk-detail');
+  const open=detail.classList.toggle('open');
+  btn.querySelector('i').style.transform=open?'rotate(180deg)':'';
+  btn.childNodes[1].textContent=open?' 收起':' 了解更多';
+}
+function copyInstall(url,btn){
+  const cmd=`帮我安装这个 skill：${url}`;
+  navigator.clipboard.writeText(cmd).then(()=>{
+    const old=btn.innerHTML;btn.innerHTML='<i class="fas fa-check" style="margin-right:4px"></i>已复制';
+    setTimeout(()=>btn.innerHTML=old,1500);
+  });
+}
+
+/* ===== AI HOT (GitHub Pages — direct API) ===== */
+const CAT_LABELS={'ai-models':'模型发布','ai-products':'产品更新','industry':'行业动态','paper':'论文研究','tip':'技巧观点'};
+const AIHOT_API_BASE='https://aihot.virxact.com/api/public';
+const GITHUB_REPO='https://github.com/KKKKhazix/khazix-skills';
+let aihotLoaded=false,aihotCat='',aihotQ='',aihotCursor=null,aihotHasNext=false;
+
+function timeAgo(s){if(!s)return'';const d=new Date(s),now=new Date(),diff=Math.floor((now-d)/1000);if(diff<60)return'刚刚';if(diff<3600)return Math.floor(diff/60)+' 分钟前';if(diff<86400)return Math.floor(diff/3600)+' 小时前';if(diff<172800)return'昨天';if(diff<2592000)return Math.floor(diff/86400)+' 天前';return d.toLocaleDateString('zh-CN')}
+
+function renderSkel(n=5){const l=document.getElementById('aihotList');l.innerHTML='';for(let i=0;i<n;i++)l.innerHTML+=`<div class="skel-card"><div class="skel-line hlg w70"></div><div class="skel-line w40"></div><div class="skel-line w90"></div><div class="skel-line w50"></div></div>`}
+function renderMsg(icon,msg,retry){document.getElementById('aihotList').innerHTML=`<div class="msg-box"><i class="fas fa-${icon}"></i><p>${msg}</p>${retry?`<button class="retry-btn" onclick="loadAIHot()"><i class="fas fa-rotate-right"></i> 重试</button>`:''}</div>`}
+
+function renderItems(items){
+  const l=document.getElementById('aihotList');
+  if(!items||!items.length){l.innerHTML='<div class="msg-box"><i class="fas fa-inbox"></i><p>暂无相关资讯</p></div>';return}
+  l.innerHTML+=items.map(it=>{
+    const cat=it.category||'',catLabel=CAT_LABELS[cat]||cat,catCls=cat||'ai-models';
+    return`<div class="aihot-card">
+      <div class="aihot-card-top">
+        <div class="aihot-card-title">${it.url?`<a href="${it.url}" target="_blank" rel="noopener">${it.title||'无标题'}</a>`:(it.title||'无标题')}</div>
+        ${cat?`<span class="cat-badge ${catCls}">${catLabel}</span>`:''}
+      </div>
+      <div class="aihot-card-meta">
+        ${it.source?`<span><i class="fas fa-newspaper"></i> ${it.source}</span>`:''}
+        ${it.publishedAt?`<span><i class="fas fa-clock"></i> ${timeAgo(it.publishedAt)}</span>`:''}
+      </div>
+      ${it.summary?`<div class="aihot-card-summary">${it.summary}</div>`:''}
+    </div>`}).join('');
+}
+
+function renderAIHotError(msg){
+  document.getElementById('aihotList').innerHTML=`<div class="msg-box"><i class="fas fa-triangle-exclamation"></i><p>${msg}</p><p style="margin-top:12px;font-size:.86rem"><a href="${GITHUB_REPO}" target="_blank" style="color:var(--primary-light)">前往 GitHub 仓库</a> 运行本地服务器获取完整体验</p></div>`;
+}
+
+async function loadAIHot(append=false){
+  if(!append)renderSkel(5);
+  try{
+    let url=`${AIHOT_API_BASE}/items?mode=selected&take=20`;
+    if(aihotCat)url+=`&category=${aihotCat}`;
+    if(aihotQ)url+=`&q=${encodeURIComponent(aihotQ)}`;
+    if(append&&aihotCursor)url+=`&cursor=${encodeURIComponent(aihotCursor)}`;
+    const res=await fetch(url);if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    const data=await res.json();
+    const items=data.items||data.data||[];
+    aihotHasNext=data.hasNext||false;
+    aihotCursor=data.nextCursor||null;
+    if(!append){document.getElementById('aihotList').innerHTML='';renderItems(items)}
+    else renderItems(items);
+    document.getElementById('aihotMore').style.display=aihotHasNext?'block':'none';
+  }catch(e){
+    console.error('AIHOT fetch error:',e);
+    if(!append){
+      const isCORS=e instanceof TypeError&&e.message.includes('Failed to fetch');
+      if(isCORS){
+        renderAIHotError('请使用本地服务器模式获取完整资讯体验');
+      }else{
+        renderAIHotError(`资讯加载失败：${e.message||'未知错误'}`);
+      }
+    }
+  }
+}
+
+async function loadDaily(){
+  try{
+    const res=await fetch(`${AIHOT_API_BASE}/daily`);if(!res.ok)return;
+    const data=await res.json();if(!data||!data.sections)return;
+    const el=document.getElementById('aihotDaily');
+    const lead=data.lead?`<div class="aihot-daily-lead">${data.lead.title||''}${data.lead.leadParagraph?'<br>'+data.lead.leadParagraph:''}</div>`:'';
+    const count=data.sections.reduce((s,sec)=>s+sec.items.length,0);
+    el.innerHTML=`<div class="aihot-daily">
+      <div class="aihot-daily-head"><i class="fas fa-newspaper"></i><h3>AI HOT 日报 · ${data.date||'今日'}</h3><span style="color:var(--text3);font-size:.82rem;margin-left:auto">${count} 条</span></div>
+      ${lead}
+      <div style="display:flex;flex-wrap:wrap;gap:8px">${data.sections.map(s=>`<span class="sk-tag" style="font-size:.78rem">${s.label} ${s.items.length}</span>`).join('')}</div>
+    </div>`;
+  }catch(e){console.error('daily error',e)}
+}
+
+document.getElementById('aihotTabs').addEventListener('click',e=>{
+  const tab=e.target.closest('.aihot-tab');if(!tab)return;
+  document.querySelectorAll('.aihot-tab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');aihotCat=tab.dataset.cat;aihotCursor=null;loadAIHot();
+});
+
+let searchTimer;
+document.getElementById('aihotSearch').addEventListener('input',e=>{
+  clearTimeout(searchTimer);searchTimer=setTimeout(()=>{aihotQ=e.target.value.trim();aihotCursor=null;loadAIHot()},400);
+});
+
+function loadMoreAIHot(){loadAIHot(true)}
+
+const aihotObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!aihotLoaded){aihotLoaded=true;loadAIHot();loadDaily()}}),{threshold:.05});
+aihotObs.observe(document.getElementById('aihot'));
+
+/* ===== Storage Analyzer (Demo Mode) ===== */
+let scanning=false;
+
+function getDemoData(){return{generated_at:new Date().toISOString(),scan_seconds:3.2,system:{os:'Windows 10',build:'19045',arch:'AMD64',user:'demo',home:'C:\\Users\\demo',filesystem:'NTFS',disk_total:'200.0 GB',disk_used:'156.3 GB',disk_free:'43.7 GB',purgeable:'',disk_name:'C:\\',disks:[{name:'C:\\',total:'200.0 GB',used:'156.3 GB',free:'43.7 GB'},{name:'D:\\',total:'500.0 GB',used:'312.5 GB',free:'187.5 GB'}]},groups:{user_profile:[{name:'AppData',path:'C:\\Users\\demo\\AppData',size_kb:25600000,size_h:'24.4 GB'},{name:'Downloads',path:'C:\\Users\\demo\\Downloads',size_kb:8200000,size_h:'7.8 GB'},{name:'.vscode',path:'C:\\Users\\demo\\.vscode',size_kb:512000,size_h:'500.0 MB'}],appdata_local:[{name:'Google',path:'C:\\Users\\demo\\AppData\\Local\\Google',size_kb:4200000,size_h:'4.0 GB'},{name:'pip',path:'C:\\Users\\demo\\AppData\\Local\\pip',size_kb:2100000,size_h:'2.0 GB'}],dev_caches:[{name:'.npm',path:'C:\\Users\\demo\\.npm',size_kb:3600000,size_h:'3.4 GB'},{name:'.nuget',path:'C:\\Users\\demo\\.nuget',size_kb:1800000,size_h:'1.7 GB'}]}}}
+
+function parseGB(s){if(!s)return 0;const m=String(s).match(/([\d.]+)\s*(TB|GB|MB)?/i);if(!m)return 0;let v=parseFloat(m[1]);const u=(m[2]||'GB').toUpperCase();if(u==='TB')v*=1024;else if(u==='MB')v/=1024;return v}
+
+function startScan(){
+  if(scanning)return;scanning=true;
+  const btn=document.getElementById('scanBtn'),prog=document.getElementById('scanProgress'),fill=document.getElementById('scanFill'),txt=document.getElementById('scanText'),results=document.getElementById('scanResults');
+  btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> 加载中...';
+  prog.classList.add('active');results.classList.remove('active');
+  let pct=0;const iv=setInterval(()=>{pct=Math.min(pct+Math.random()*15,90);fill.style.width=pct+'%';txt.textContent=`正在加载演示数据... ${Math.floor(pct)}%`},200);
+  setTimeout(()=>{
+    clearInterval(iv);fill.style.width='100%';txt.textContent='加载完成！';
+    setTimeout(()=>{
+      prog.classList.remove('active');
+      renderScanResults(getDemoData());
+      results.classList.add('active');
+      btn.disabled=false;btn.innerHTML='<i class="fas fa-play-circle"></i> 查看演示';scanning=false;
+    },500);
+  },1200);
+}
+
+function renderScanResults(data){
+  const sys=data.system||{},groups=data.groups||{};
+  const total=parseGB(sys.disk_total)||200,used=parseGB(sys.disk_used)||156,free=parseGB(sys.disk_free)||44;
+  const otherDisks=(sys.disks||[]).filter(d=>d.name!==sys.disk_name);
+  const usedPct=Math.min(100,Math.round(used/total*100));
+
+  let groupsHtml='';
+  for(const[key,items]of Object.entries(groups)){
+    if(!items||!items.length)continue;
+    const label=key.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+    groupsHtml+=`<div class="tier-sec"><div class="tier-head"><span>📁</span><span>${label}</span><span style="color:var(--text3);font-weight:400;font-size:.84rem">(${items.length} 项)</span></div>`;
+    items.forEach(it=>{
+      groupsHtml+=`<div class="tier-item" onclick="this.classList.toggle('open')">
+        <div class="tier-item-top"><div class="tier-item-name">${it.name}</div><div class="tier-item-size">${it.size_h||''}</div><div class="tier-item-chev"><i class="fas fa-chevron-down"></i></div></div>
+        <div class="tier-item-body">${it.path||''}${it.denied?' (权限不足)':''}</div></div>`;
+    });
+    groupsHtml+='</div>';
+  }
+
+  document.getElementById('scanResults').innerHTML=`
+    <div class="disk-card reveal">
+      <h3>磁盘概览 — ${sys.disk_name||'系统盘'} <span style="font-size:.78rem;color:var(--text3);font-weight:400">（演示数据）</span></h3>
+      <div class="disk-bar-wrap"><div class="disk-bar"><i class="seg-blue" style="width:${usedPct}%"></i><i class="seg-free" style="width:${100-usedPct}%"></i></div></div>
+      <div class="disk-stats">
+        <span><span class="stat-label">总容量</span>${sys.disk_total||'?'}</span>
+        <span><span class="stat-label">已用</span>${sys.disk_used||'?'}</span>
+        <span><span class="stat-label">可用</span>${sys.disk_free||'?'}</span>
+        ${sys.purgeable?`<span><span class="stat-label">可清除</span>${sys.purgeable}</span>`:''}
+      </div>
+      <div class="pills">
+        <span class="pill"><span class="dot blue"></span>已用 ${usedPct}%</span>
+        <span class="pill"><span class="dot green"></span>可用</span>
+      </div>
+      ${otherDisks.length?`<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+        <div style="font-size:.82rem;color:var(--text3);font-weight:600;margin-bottom:8px">其他磁盘</div>
+        ${otherDisks.map(d=>{const u=parseGB(d.used),t=parseGB(d.total)||1;return`<div style="display:flex;align-items:center;gap:10px;margin:4px 0;font-size:.84rem"><span style="width:40px;font-weight:600">${d.name}</span><div style="flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden"><div style="height:100%;width:${Math.min(100,u/t*100).toFixed(1)}%;background:var(--primary);border-radius:4px"></div></div><span style="color:var(--text3)">${d.used} / ${d.total}</span></div>`}).join('')}
+      </div>`:''}
+      <div class="disk-sys">
+        <div><span>系统 </span>${sys.os||'?'} (${sys.build||'?'})</div>
+        <div><span>架构 </span>${sys.arch||'?'}</div>
+        <div><span>文件系统 </span>${sys.filesystem||'?'}</div>
+        <div><span>用户 </span>${sys.user||'?'}</div>
+      </div>
+    </div>
+    ${groupsHtml}
+    <div style="text-align:center;margin-top:8px;font-size:.82rem;color:var(--text3)">演示数据 · 扫描耗时 ${data.scan_seconds||'?'}s · 生成于 ${data.generated_at||'?'}</div>`;
+  document.querySelectorAll('#scanResults .reveal').forEach(el=>revObs.observe(el));
+}
+
+/* ===== Init ===== */
+updateNav();
+</script>
+</body>
+</html>
