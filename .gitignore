@@ -13,6 +13,10 @@
 # Local Claude Code project settings
 .claude/settings.local.json
 
+# Python
+__pycache__/
+*.pyc
+
 # Internal project instructions (not for public repo)
 # AGENTS.md is a symlink to CLAUDE.md — same secret content, must also be ignored
 CLAUDE.md
