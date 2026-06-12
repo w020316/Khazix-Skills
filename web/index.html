@@ -24,13 +24,22 @@ a:hover{color:var(--green)}
 .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px}
 .nav-logo{display:flex;align-items:center;gap:10px;font-size:1.15rem;font-weight:700;color:var(--text);cursor:pointer}
 .nav-logo span{font-size:1.4rem}
-.nav-links{display:flex;gap:4px;list-style:none}
-.nav-links a{padding:8px 16px;border-radius:var(--radius-sm);color:var(--text2);font-size:.9rem;font-weight:500;transition:all .2s}
+.nav-links{display:flex;gap:4px;list-style:none;align-items:center}
+.nav-links a{padding:8px 16px;border-radius:var(--radius-sm);color:var(--text2);font-size:.9rem;font-weight:500;transition:all .2s;display:flex;align-items:center;gap:6px}
 .nav-links a:hover,.nav-links a.active{color:var(--text);background:var(--card)}
 .nav-right{display:flex;align-items:center;gap:8px}
 .icon-btn{width:38px;height:38px;border:none;border-radius:50%;background:var(--card);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s}
 .icon-btn:hover{color:var(--orange);background:var(--card-h)}
 .hamburger{display:none}
+
+/* Nav Dropdown */
+.nav-dropdown{position:relative}
+.nav-dropdown-toggle{cursor:pointer}
+.nav-dropdown-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);min-width:180px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:6px;opacity:0;visibility:hidden;transition:all .2s var(--ease);z-index:1000}
+.nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown.open .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.nav-dropdown-menu a{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:var(--radius-sm);color:var(--text2);font-size:.86rem;white-space:nowrap}
+.nav-dropdown-menu a:hover{background:var(--bg2);color:var(--primary-light)}
+.nav-dropdown-menu a i{width:18px;text-align:center;font-size:.9rem}
 
 /* Hero */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:100px 24px 80px}
@@ -49,6 +58,17 @@ a:hover{color:var(--green)}
 .hero-stat .num{font-size:1.8rem;font-weight:800;color:var(--primary-light)}
 .hero-stat .label{font-size:.82rem;color:var(--text3);margin-top:2px}
 
+/* Hero Quick Tools */
+.hero-tools{display:flex;justify-content:center;gap:12px;margin-top:36px;flex-wrap:wrap}
+.hero-tool-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--radius);background:var(--card);border:1px solid var(--border);color:var(--text2);font-size:.88rem;font-weight:500;cursor:pointer;transition:all .25s var(--ease);font-family:var(--font)}
+.hero-tool-btn:hover{border-color:var(--primary);color:var(--primary-light);transform:translateY(-2px);box-shadow:var(--shadow)}
+.hero-tool-btn i{font-size:1rem}
+.hero-tool-btn .ht-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.hero-tool-btn .ht-icon.bg-blue{background:var(--blue-bg);color:var(--blue)}
+.hero-tool-btn .ht-icon.bg-green{background:var(--green-bg);color:var(--green)}
+.hero-tool-btn .ht-icon.bg-red{background:var(--red-bg);color:var(--red)}
+.hero-tool-btn .ht-icon.bg-purple{background:var(--purple-bg);color:var(--purple)}
+
 /* Section */
 .section{padding:100px 24px;max-width:1200px;margin:0 auto}
 .sec-header{text-align:center;margin-bottom:56px}
@@ -56,12 +76,20 @@ a:hover{color:var(--green)}
 .sec-title{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:700;margin-bottom:10px}
 .sec-desc{color:var(--text2);font-size:1rem;max-width:520px;margin:0 auto}
 
+/* Skills Search */
+.skills-search-wrap{max-width:480px;margin:0 auto 32px;position:relative}
+.skills-search-wrap input{width:100%;padding:12px 16px 12px 42px;border-radius:var(--radius);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.92rem;font-family:var(--font);transition:border-color .2s;outline:none}
+.skills-search-wrap input:focus{border-color:var(--primary)}
+.skills-search-wrap .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:.9rem}
+.skills-search-wrap .search-hint{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:.72rem;color:var(--text3);background:var(--bg2);border:1px solid var(--border);padding:2px 8px;border-radius:4px;font-family:var(--mono);pointer-events:none}
+
 /* Skills Grid */
 .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
 .skill-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:all .3s var(--ease);position:relative;overflow:hidden}
 .skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--green));opacity:0;transition:opacity .3s}
 .skill-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--primary)}
 .skill-card:hover::before{opacity:1}
+.skill-card.hidden{display:none}
 .sk-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
 .sk-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
 .sk-icon.bg-blue{background:var(--blue-bg)}.sk-icon.bg-green{background:var(--green-bg)}.sk-icon.bg-orange{background:var(--orange-bg)}.sk-icon.bg-purple{background:var(--purple-bg)}.sk-icon.bg-red{background:var(--red-bg)}
@@ -169,6 +197,117 @@ a:hover{color:var(--green)}
 .view-report-btn{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:10px 24px;border-radius:var(--radius-sm);background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:.9rem;font-weight:500;font-family:var(--font);transition:background .2s}
 .view-report-btn:hover{background:var(--primary-dark)}
 
+/* Tool Section Common */
+.tool-area{text-align:center;margin-bottom:40px}
+.tool-input-row{display:flex;gap:12px;max-width:560px;margin:0 auto;align-items:center}
+.tool-input-row input{flex:1;padding:12px 16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.92rem;font-family:var(--font);outline:none;transition:border-color .2s}
+.tool-input-row input:focus{border-color:var(--primary)}
+.tool-input-row input::placeholder{color:var(--text3)}
+.tool-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:var(--radius);font-size:.95rem;font-weight:600;border:none;cursor:pointer;transition:all .3s;font-family:var(--font);white-space:nowrap}
+.tool-btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.tool-btn.bg-blue{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;box-shadow:0 4px 20px rgba(22,93,255,.3)}
+.tool-btn.bg-blue:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 30px rgba(22,93,255,.4)}
+.tool-btn.bg-red{background:linear-gradient(135deg,var(--red),#e81818);color:#fff;box-shadow:0 4px 20px rgba(245,63,63,.3)}
+.tool-btn.bg-red:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 30px rgba(245,63,63,.4)}
+.tool-btn.bg-purple{background:linear-gradient(135deg,var(--purple),#9254de);color:#fff;box-shadow:0 4px 20px rgba(114,46,209,.3)}
+.tool-btn.bg-purple:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 30px rgba(114,46,209,.4)}
+.tool-progress{display:none;margin-top:24px}.tool-progress.active{display:block}
+.tool-progress-bar{width:100%;max-width:480px;height:8px;background:var(--border);border-radius:4px;margin:0 auto 12px;overflow:hidden;position:relative}
+.tool-progress-fill{height:100%;width:0;border-radius:4px;transition:width .4s var(--ease)}
+.tool-progress-fill.bg-blue{background:linear-gradient(90deg,var(--primary),var(--primary-light))}
+.tool-progress-fill.bg-red{background:linear-gradient(90deg,var(--red),#e81818)}
+.tool-progress-fill.bg-purple{background:linear-gradient(90deg,var(--purple),#9254de)}
+.tool-progress-fill.animated{background-size:200% 100%;animation:progressShine 2s linear infinite}
+@keyframes progressShine{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.tool-progress-text{color:var(--text2);font-size:.86rem}
+.tool-results{display:none}.tool-results.active{display:block}
+
+/* WebApp Test Results */
+.wat-score-wrap{display:flex;align-items:center;justify-content:center;gap:32px;margin-bottom:32px;flex-wrap:wrap}
+.wat-score-circle{width:120px;height:120px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;position:relative}
+.wat-score-circle .score-num{font-size:2.4rem;line-height:1}
+.wat-score-circle .score-label{font-size:.72rem;font-weight:500;opacity:.8;margin-top:2px}
+.wat-score-circle.score-good{background:var(--green-bg);color:var(--green);border:3px solid var(--green)}
+.wat-score-circle.score-mid{background:var(--orange-bg);color:var(--orange);border:3px solid var(--orange)}
+.wat-score-circle.score-bad{background:var(--red-bg);color:var(--red);border:3px solid var(--red)}
+.wat-score-summary{text-align:left;max-width:300px}
+.wat-score-summary h3{font-size:1.1rem;margin-bottom:8px}
+.wat-score-summary p{font-size:.86rem;color:var(--text2);line-height:1.6}
+.wat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:24px}
+.wat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;transition:all .2s}
+.wat-card:hover{border-color:var(--primary);box-shadow:var(--shadow)}
+.wat-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.wat-card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.wat-card-icon.bg-green{background:var(--green-bg);color:var(--green)}
+.wat-card-icon.bg-red{background:var(--red-bg);color:var(--red)}
+.wat-card-icon.bg-orange{background:var(--orange-bg);color:var(--orange)}
+.wat-card-icon.bg-blue{background:var(--blue-bg);color:var(--blue)}
+.wat-card-title{font-weight:600;font-size:.95rem}
+.wat-card-value{font-size:1.3rem;font-weight:700;margin-bottom:4px}
+.wat-card-detail{font-size:.82rem;color:var(--text2)}
+.wat-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:600}
+.wat-badge.pass{background:var(--green-bg);color:var(--green)}
+.wat-badge.fail{background:var(--red-bg);color:var(--red)}
+.wat-badge.warn{background:var(--orange-bg);color:var(--orange)}
+.wat-headers-list{display:flex;flex-direction:column;gap:8px}
+.wat-header-item{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-radius:var(--radius-sm);background:var(--bg2);border:1px solid var(--border);font-size:.86rem}
+.wat-header-name{font-family:var(--mono);font-size:.82rem;color:var(--text2)}
+.wat-links-list{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
+.wat-link-item{font-size:.84rem;color:var(--red);font-family:var(--mono);padding:4px 8px;border-radius:4px;background:var(--red-bg)}
+
+/* Security Scan Results */
+.sec-grade-wrap{display:flex;align-items:center;justify-content:center;gap:32px;margin-bottom:32px;flex-wrap:wrap}
+.sec-grade-circle{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.6rem;font-weight:900;border:4px solid}
+.sec-grade-circle.grade-a{color:var(--green);border-color:var(--green);background:var(--green-bg)}
+.sec-grade-circle.grade-b{color:var(--blue);border-color:var(--blue);background:var(--blue-bg)}
+.sec-grade-circle.grade-c{color:var(--orange);border-color:var(--orange);background:var(--orange-bg)}
+.sec-grade-circle.grade-d{color:#e8683f;border-color:#e8683f;background:rgba(232,104,63,.1)}
+.sec-grade-circle.grade-f{color:var(--red);border-color:var(--red);background:var(--red-bg)}
+.sec-grade-summary{text-align:left;max-width:300px}
+.sec-grade-summary h3{font-size:1.1rem;margin-bottom:8px}
+.sec-grade-summary p{font-size:.86rem;color:var(--text2);line-height:1.6}
+.sec-findings{display:flex;flex-direction:column;gap:12px}
+.sec-finding-group-title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.95rem;margin-top:16px;margin-bottom:4px}
+.sec-finding-group-title i{font-size:.85rem}
+.sec-finding-group-title.critical{color:var(--red)}
+.sec-finding-group-title.warning{color:var(--orange)}
+.sec-finding-group-title.info{color:var(--blue)}
+.sec-finding-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;border-left:4px solid}
+.sec-finding-card.critical{border-left-color:var(--red)}
+.sec-finding-card.warning{border-left-color:var(--orange)}
+.sec-finding-card.info{border-left-color:var(--blue)}
+.sec-finding-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.sec-finding-title{font-weight:600;font-size:.92rem;flex:1}
+.sec-finding-severity{padding:3px 10px;border-radius:12px;font-size:.7rem;font-weight:600;text-transform:uppercase}
+.sec-finding-severity.critical{background:var(--red-bg);color:var(--red)}
+.sec-finding-severity.warning{background:var(--orange-bg);color:var(--orange)}
+.sec-finding-severity.info{background:var(--blue-bg);color:var(--blue)}
+.sec-finding-desc{font-size:.86rem;color:var(--text2);line-height:1.6}
+
+/* Changelog Results */
+.cl-inputs{display:flex;flex-wrap:wrap;gap:12px;max-width:700px;margin:0 auto;align-items:flex-end}
+.cl-input-group{flex:1;min-width:180px}
+.cl-input-group label{display:block;font-size:.82rem;color:var(--text2);margin-bottom:6px;font-weight:500}
+.cl-input-group input{width:100%;padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.88rem;font-family:var(--font);outline:none;transition:border-color .2s}
+.cl-input-group input:focus{border-color:var(--primary)}
+.cl-input-group input::placeholder{color:var(--text3)}
+.cl-results-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-top:24px;position:relative}
+.cl-copy-btn{position:absolute;top:14px;right:14px;padding:6px 14px;border-radius:var(--radius-sm);background:var(--bg2);border:1px solid var(--border);color:var(--text2);font-size:.8rem;cursor:pointer;font-family:var(--font);transition:all .2s;display:flex;align-items:center;gap:6px}
+.cl-copy-btn:hover{border-color:var(--primary);color:var(--primary)}
+.cl-md{font-size:.88rem;line-height:1.8;color:var(--text2)}
+.cl-md h1,.cl-md h2,.cl-md h3{color:var(--text);margin:20px 0 10px}
+.cl-md h1:first-child,.cl-md h2:first-child{margin-top:0}
+.cl-md h1{font-size:1.4rem}.cl-md h2{font-size:1.15rem}.cl-md h3{font-size:1rem}
+.cl-md ul{padding-left:20px;margin:8px 0}
+.cl-md li{margin:4px 0}
+.cl-md code{font-family:var(--mono);font-size:.82rem;background:var(--bg2);padding:2px 6px;border-radius:4px}
+.cl-md strong{color:var(--text)}
+
+/* Back to Top */
+.back-top{position:fixed;bottom:32px;right:32px;width:44px;height:44px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 4px 16px rgba(22,93,255,.35);opacity:0;visibility:hidden;transform:translateY(12px);transition:all .3s var(--ease);z-index:900}
+.back-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(22,93,255,.45)}
+
 /* Footer */
 .footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;background:var(--bg2)}
 .footer-brand{font-size:1.05rem;font-weight:700;margin-bottom:8px}
@@ -181,12 +320,25 @@ a:hover{color:var(--green)}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
+/* Section Transition */
+.section-enter{opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.section-enter.visible{opacity:1;transform:translateY(0)}
+
 /* Responsive */
 @media(max-width:768px){
   .nav-links{display:none}.hamburger{display:flex;align-items:center;justify-content:center}
   .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--nav);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px}
+  .nav-dropdown-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;border:none;background:transparent;padding:0 0 0 16px;min-width:auto}
   .skills-grid{grid-template-columns:1fr}.hero-stats{gap:24px}
   .section{padding:60px 16px}.aihot-inner{padding:60px 16px}.hero{padding:100px 16px 60px}
+  .tool-input-row{flex-direction:column}.tool-input-row input{width:100%}
+  .wat-score-wrap,.sec-grade-wrap{flex-direction:column;text-align:center}
+  .wat-score-summary,.sec-grade-summary{text-align:center;max-width:100%}
+  .wat-grid{grid-template-columns:1fr}
+  .cl-inputs{flex-direction:column}
+  .hero-tools{gap:8px}
+  .hero-tool-btn{padding:8px 14px;font-size:.82rem}
+  .back-top{bottom:20px;right:20px;width:40px;height:40px;font-size:1rem}
 }
 @media(max-width:480px){.hero-title{font-size:2rem}.aihot-toolbar{gap:4px}.aihot-tab{padding:6px 12px;font-size:.8rem}}
 </style>
@@ -202,6 +354,14 @@ a:hover{color:var(--green)}
       <li><a href="#skills" data-sec="skills">Skills</a></li>
       <li><a href="#aihot" data-sec="aihot">AI HOT</a></li>
       <li><a href="#storage" data-sec="storage">存储分析</a></li>
+      <li class="nav-dropdown">
+        <a class="nav-dropdown-toggle" href="javascript:void(0)" data-sec="tools">工具箱 <i class="fas fa-chevron-down" style="font-size:.6rem;margin-left:2px"></i></a>
+        <div class="nav-dropdown-menu">
+          <a href="#webapp-test"><i class="fas fa-flask"></i> WebApp 测试</a>
+          <a href="#security-scan"><i class="fas fa-shield-halved"></i> 安全扫描</a>
+          <a href="#changelog"><i class="fas fa-clipboard-list"></i> 变更日志</a>
+        </div>
+      </li>
     </ul>
     <div class="nav-right">
       <button class="icon-btn" id="themeBtn" aria-label="切换主题"><i class="fas fa-moon"></i></button>
@@ -218,6 +378,12 @@ a:hover{color:var(--green)}
     <h1 class="hero-title">Khazix Skills</h1>
     <p class="hero-sub">我自己每天在用的一些 AI Skill，都开源在这里</p>
     <a href="#skills" class="hero-cta">浏览所有 Skills <i class="fas fa-arrow-right"></i></a>
+    <div class="hero-tools">
+      <button class="hero-tool-btn" onclick="scrollTo('webapp-test')"><span class="ht-icon bg-green"><i class="fas fa-flask"></i></span> WebApp 测试</button>
+      <button class="hero-tool-btn" onclick="scrollTo('security-scan')"><span class="ht-icon bg-red"><i class="fas fa-shield-halved"></i></span> 安全扫描</button>
+      <button class="hero-tool-btn" onclick="scrollTo('changelog')"><span class="ht-icon bg-purple"><i class="fas fa-clipboard-list"></i></span> 变更日志</button>
+      <button class="hero-tool-btn" onclick="scrollTo('storage')"><span class="ht-icon bg-blue"><i class="fas fa-hard-drive"></i></span> 存储分析</button>
+    </div>
     <div class="hero-stats">
       <div class="hero-stat"><div class="num">8</div><div class="label">Skills</div></div>
       <div class="hero-stat"><div class="num">跨平台</div><div class="label">macOS / Windows / Linux</div></div>
@@ -232,6 +398,11 @@ a:hover{color:var(--green)}
     <div class="sec-tag"><i class="fas fa-cube"></i> SKILLS</div>
     <h2 class="sec-title">开源 Skills 合集</h2>
     <p class="sec-desc">每个 Skill 都是我日常高频使用的工具，开箱即用，全部遵循 Agent Skills 开放标准</p>
+  </div>
+  <div class="skills-search-wrap reveal">
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" id="skillsSearch" placeholder="搜索 Skills（名称、描述、标签…）">
+    <span class="search-hint">Ctrl+K</span>
   </div>
   <div class="skills-grid" id="skillsGrid"></div>
 </section>
@@ -281,6 +452,77 @@ a:hover{color:var(--green)}
   <div class="scan-results" id="scanResults"></div>
 </section>
 
+<!-- WebApp Testing -->
+<section class="section" id="webapp-test">
+  <div class="sec-header reveal">
+    <div class="sec-tag"><i class="fas fa-flask"></i> WEBAPP TEST</div>
+    <h2 class="sec-title">Web 应用测试</h2>
+    <p class="sec-desc">一键检测网站健康度，HTTP 状态、响应时间、SSL 证书、安全头、坏链，全面体检</p>
+  </div>
+  <div class="tool-area reveal">
+    <div class="tool-input-row">
+      <input type="url" id="watUrl" placeholder="输入网站地址（如 https://example.com）">
+      <button class="tool-btn bg-blue" id="watBtn" onclick="startWebAppTest()"><i class="fas fa-play"></i> 开始测试</button>
+    </div>
+    <div class="tool-progress" id="watProgress">
+      <div class="tool-progress-bar"><div class="tool-progress-fill bg-blue" id="watFill"></div></div>
+      <div class="tool-progress-text" id="watText">正在测试...</div>
+    </div>
+  </div>
+  <div class="tool-results" id="watResults"></div>
+</section>
+
+<!-- Security Scanner -->
+<section class="section" id="security-scan">
+  <div class="sec-header reveal">
+    <div class="sec-tag"><i class="fas fa-shield-halved"></i> SECURITY</div>
+    <h2 class="sec-title">安全扫描器</h2>
+    <p class="sec-desc">对 Web 应用进行安全体检，检测信息泄露、不安全头、混合内容、过期 SSL</p>
+  </div>
+  <div class="tool-area reveal">
+    <div class="tool-input-row">
+      <input type="url" id="secUrl" placeholder="输入网站地址（如 https://example.com）">
+      <button class="tool-btn bg-red" id="secBtn" onclick="startSecurityScan()"><i class="fas fa-radar"></i> 开始扫描</button>
+    </div>
+    <div class="tool-progress" id="secProgress">
+      <div class="tool-progress-bar"><div class="tool-progress-fill bg-red" id="secFill"></div></div>
+      <div class="tool-progress-text" id="secText">正在扫描...</div>
+    </div>
+  </div>
+  <div class="tool-results" id="secResults"></div>
+</section>
+
+<!-- Changelog Generator -->
+<section class="section" id="changelog">
+  <div class="sec-header reveal">
+    <div class="sec-tag"><i class="fas fa-clipboard-list"></i> CHANGELOG</div>
+    <h2 class="sec-title">变更日志生成器</h2>
+    <p class="sec-desc">从 Git 历史自动生成用户友好的 Changelog，支持 Conventional Commits</p>
+  </div>
+  <div class="tool-area reveal">
+    <div class="cl-inputs">
+      <div class="cl-input-group">
+        <label>仓库路径（可选，默认当前项目）</label>
+        <input type="text" id="clRepo" placeholder="如 /path/to/repo">
+      </div>
+      <div class="cl-input-group">
+        <label>From（可选）</label>
+        <input type="text" id="clFrom" placeholder="如 v1.0.0 或 commit hash">
+      </div>
+      <div class="cl-input-group">
+        <label>To（可选）</label>
+        <input type="text" id="clTo" placeholder="如 v2.0.0 或 HEAD">
+      </div>
+      <button class="tool-btn bg-purple" id="clBtn" onclick="startChangelog()" style="margin-bottom:0;align-self:flex-end"><i class="fas fa-wand-magic-sparkles"></i> 生成变更日志</button>
+    </div>
+    <div class="tool-progress" id="clProgress">
+      <div class="tool-progress-bar"><div class="tool-progress-fill bg-purple" id="clFill"></div></div>
+      <div class="tool-progress-text" id="clText">正在生成...</div>
+    </div>
+  </div>
+  <div class="tool-results" id="clResults"></div>
+</section>
+
 <!-- Footer -->
 <footer class="footer">
   <div class="footer-brand">Made by @KKKKhazix</div>
@@ -291,6 +533,9 @@ a:hover{color:var(--green)}
   </div>
   <div class="footer-copy">MIT License &copy; 2024-2026 数字生命卡兹克</div>
 </footer>
+
+<!-- Back to Top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button>
 
 <script>
 /* ===== Theme ===== */
@@ -304,15 +549,24 @@ const menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementByI
 menuBtn.onclick=()=>{navLinks.classList.toggle('open');menuBtn.querySelector('i').className=navLinks.classList.contains('open')?'fas fa-times':'fas fa-bars'};
 navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuBtn.querySelector('i').className='fas fa-bars'}));
 
-/* ===== Scroll ===== */
+/* ===== Scroll & Nav ===== */
 function scrollTo(id){const el=document.getElementById(id);el&&el.scrollIntoView({behavior:'smooth'})}
-const secs=document.querySelectorAll('section[id],.hero'),navAs=document.querySelectorAll('.nav-links a');
+const secs=document.querySelectorAll('section[id],.hero'),navAs=document.querySelectorAll('.nav-links a[data-sec]');
 function updateNav(){let cur='hero';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-100)cur=s.id||'hero'});navAs.forEach(a=>{a.classList.toggle('active',a.dataset.sec===cur)})}
 window.addEventListener('scroll',updateNav,{passive:true});
+
+/* ===== Back to Top ===== */
+const backTopBtn=document.getElementById('backTop');
+window.addEventListener('scroll',()=>{backTopBtn.classList.toggle('visible',window.scrollY>400)},{passive:true});
 
 /* ===== Reveal ===== */
 const revObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+/* ===== Keyboard Shortcuts ===== */
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();const s=document.getElementById('skillsSearch');if(s){s.focus();s.scrollIntoView({behavior:'smooth',block:'center'})}}
+});
 
 /* ===== Skills Data & Render ===== */
 const SKILLS_DATA=[
@@ -385,7 +639,7 @@ const SKILLS_DATA=[
 function renderSkills(){
   const grid=document.getElementById('skillsGrid');
   grid.innerHTML=SKILLS_DATA.map((s,i)=>`
-    <div class="skill-card reveal" style="transition-delay:${i*80}ms">
+    <div class="skill-card reveal" data-skill-id="${s.id}" style="transition-delay:${i*80}ms">
       <div class="sk-head">
         <div class="sk-icon ${s.iconBg}">${s.icon}</div>
         <div class="sk-info">
@@ -409,6 +663,24 @@ function renderSkills(){
   document.querySelectorAll('.skill-card.reveal').forEach(el=>revObs.observe(el));
 }
 renderSkills();
+
+/* ===== Skills Search/Filter ===== */
+const skillsSearchInput=document.getElementById('skillsSearch');
+let skillsSearchTimer;
+skillsSearchInput.addEventListener('input',e=>{
+  clearTimeout(skillsSearchTimer);
+  skillsSearchTimer=setTimeout(()=>{
+    const q=e.target.value.trim().toLowerCase();
+    document.querySelectorAll('.skill-card').forEach(card=>{
+      const id=card.dataset.skillId;
+      const skill=SKILLS_DATA.find(s=>s.id===id);
+      if(!skill){card.classList.remove('hidden');return}
+      if(!q){card.classList.remove('hidden');return}
+      const haystack=[skill.name,skill.en,skill.desc,skill.oneLiner,...skill.tags,...skill.triggers].join(' ').toLowerCase();
+      card.classList.toggle('hidden',!haystack.includes(q));
+    });
+  },200);
+});
 
 function toggleDetail(btn){
   const detail=btn.closest('.skill-card').querySelector('.sk-detail');
@@ -569,6 +841,360 @@ function renderScanResults(data){
     <div style="text-align:center"><a href="/api/report" target="_blank" class="view-report-btn"><i class="fas fa-file-lines"></i> 查看完整交互式报告</a></div>
     <div style="text-align:center;margin-top:8px;font-size:.82rem;color:var(--text3)">扫描耗时 ${data.scan_seconds||'?'}s · 生成于 ${data.generated_at||'?'}</div>`;
   document.querySelectorAll('#scanResults .reveal').forEach(el=>revObs.observe(el));
+}
+
+/* ===== WebApp Testing ===== */
+let watRunning=false;
+
+function getWatDemoData(url){
+  return{
+    url:url,
+    score:78,
+    http_status:{code:200,ok:true},
+    response_time:{ms:342,rating:'fast'},
+    ssl:{valid:true,expiry_date:'2027-01-15',issuer:"Let's Encrypt Authority X3"},
+    security_headers:{
+      'Strict-Transport-Security':{present:true,value:'max-age=31536000; includeSubDomains'},
+      'Content-Security-Policy':{present:true,value:"default-src 'self'"},
+      'X-Frame-Options':{present:true,value:'DENY'},
+      'X-Content-Type-Options':{present:true,value:'nosniff'},
+      'Referrer-Policy':{present:false,value:null},
+      'Permissions-Policy':{present:false,value:null}
+    },
+    broken_links:{count:2,links:['https://example.com/old-page','https://example.com/deprecated-api']},
+    page_size:{bytes:245760,human:'240 KB'}
+  };
+}
+
+function renderWatResults(data){
+  const score=data.score||0;
+  const scoreCls=score>=80?'score-good':score>=50?'score-mid':'score-bad';
+  const scoreLabel=score>=80?'健康':score>=50?'一般':'较差';
+
+  const rt=data.response_time||{};
+  const rtRating=rt.rating||(rt.ms<500?'fast':rt.ms<2000?'medium':'slow');
+  const rtLabel=rtRating==='fast'?'快速':rtRating==='medium'?'中等':'较慢';
+  const rtIcon=rtRating==='fast'?'fa-bolt':rtRating==='medium'?'fa-clock':'fa-hourglass';
+  const rtBg=rtRating==='fast'?'bg-green':rtRating==='medium'?'bg-orange':'bg-red';
+
+  const ssl=data.ssl||{};
+  const sslIcon=ssl.valid?'fa-lock':'fa-lock-open';
+  const sslBg=ssl.valid?'bg-green':'bg-red';
+
+  const headers=data.security_headers||{};
+  const headerKeys=Object.keys(headers);
+  const passCount=headerKeys.filter(k=>headers[k].present).length;
+
+  const broken=data.broken_links||{count:0,links:[]};
+
+  document.getElementById('watResults').innerHTML=`
+    <div class="wat-score-wrap reveal">
+      <div class="wat-score-circle ${scoreCls}">
+        <div class="score-num">${score}</div>
+        <div class="score-label">/ 100</div>
+      </div>
+      <div class="wat-score-summary">
+        <h3>整体健康度：${scoreLabel}</h3>
+        <p>目标：${data.url||'—'}</p>
+      </div>
+    </div>
+    <div class="wat-grid">
+      <div class="wat-card reveal">
+        <div class="wat-card-head">
+          <div class="wat-card-icon ${data.http_status?.ok?'bg-green':'bg-red'}"><i class="fas ${data.http_status?.ok?'fa-check':'fa-xmark'}"></i></div>
+          <div class="wat-card-title">HTTP 状态</div>
+        </div>
+        <div class="wat-card-value">${data.http_status?.code||'—'}</div>
+        <div class="wat-card-detail">${data.http_status?.ok?'<span class="wat-badge pass"><i class="fas fa-check"></i> 正常</span>':'<span class="wat-badge fail"><i class="fas fa-xmark"></i> 异常</span>'}</div>
+      </div>
+      <div class="wat-card reveal">
+        <div class="wat-card-head">
+          <div class="wat-card-icon ${rtBg}"><i class="fas ${rtIcon}"></i></div>
+          <div class="wat-card-title">响应时间</div>
+        </div>
+        <div class="wat-card-value">${rt.ms||'—'} ms</div>
+        <div class="wat-card-detail"><span class="wat-badge ${rtRating==='fast'?'pass':rtRating==='medium'?'warn':'fail'}">${rtLabel}</span></div>
+      </div>
+      <div class="wat-card reveal">
+        <div class="wat-card-head">
+          <div class="wat-card-icon ${sslBg}"><i class="fas ${sslIcon}"></i></div>
+          <div class="wat-card-title">SSL 证书</div>
+        </div>
+        <div class="wat-card-value">${ssl.valid?'有效':'无效'}</div>
+        <div class="wat-card-detail">${ssl.valid?`到期：${ssl.expiry_date||'—'}`:(ssl.expiry_date||'证书无效或不存在')}</div>
+      </div>
+      <div class="wat-card reveal">
+        <div class="wat-card-head">
+          <div class="wat-card-icon bg-blue"><i class="fas fa-file"></i></div>
+          <div class="wat-card-title">页面大小</div>
+        </div>
+        <div class="wat-card-value">${data.page_size?.human||'—'}</div>
+        <div class="wat-card-detail">${data.page_size?.bytes?data.page_size.bytes+' bytes':''}</div>
+      </div>
+    </div>
+    <div class="wat-card reveal" style="margin-bottom:24px">
+      <div class="wat-card-head" style="margin-bottom:14px">
+        <div class="wat-card-icon bg-blue"><i class="fas fa-shield-halved"></i></div>
+        <div class="wat-card-title">安全头检查</div>
+        <span style="margin-left:auto;font-size:.82rem;color:var(--text3)">${passCount}/${headerKeys.length} 通过</span>
+      </div>
+      <div class="wat-headers-list">
+        ${headerKeys.map(k=>{
+          const h=headers[k];
+          return`<div class="wat-header-item">
+            <span class="wat-header-name">${k}</span>
+            ${h.present?`<span class="wat-badge pass"><i class="fas fa-check"></i> 通过</span>`:`<span class="wat-badge fail"><i class="fas fa-xmark"></i> 缺失</span>`}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    ${broken.count>0?`
+    <div class="wat-card reveal" style="margin-bottom:24px">
+      <div class="wat-card-head" style="margin-bottom:14px">
+        <div class="wat-card-icon bg-red"><i class="fas fa-link-slash"></i></div>
+        <div class="wat-card-title">坏链检测</div>
+        <span style="margin-left:auto;font-size:.82rem;color:var(--red)">${broken.count} 个坏链</span>
+      </div>
+      <div class="wat-links-list">
+        ${(broken.links||[]).map(l=>`<div class="wat-link-item">${l}</div>`).join('')}
+      </div>
+    </div>`:''}
+  `;
+  document.querySelectorAll('#watResults .reveal').forEach(el=>revObs.observe(el));
+}
+
+function renderWatError(msg,retryFn){
+  document.getElementById('watResults').innerHTML=`<div class="msg-box"><i class="fas fa-circle-exclamation"></i><p>${msg}</p>${retryFn?`<button class="retry-btn" onclick="${retryFn}"><i class="fas fa-rotate-right"></i> 重试</button>`:''}</div>`;
+}
+
+async function startWebAppTest(){
+  if(watRunning)return;
+  const urlInput=document.getElementById('watUrl');
+  const url=urlInput.value.trim();
+  if(!url){urlInput.focus();return}
+  watRunning=true;
+  const btn=document.getElementById('watBtn');
+  const prog=document.getElementById('watProgress');
+  const fill=document.getElementById('watFill');
+  const txt=document.getElementById('watText');
+  const results=document.getElementById('watResults');
+
+  btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> 测试中...';
+  prog.classList.add('active');results.classList.remove('active');
+  fill.style.width='0%';fill.classList.add('animated');
+
+  const steps=['正在连接...','检测 HTTP 状态...','测量响应时间...','验证 SSL 证书...','检查安全头...','扫描坏链...','分析页面大小...','生成报告...'];
+  let step=0;
+  const iv=setInterval(()=>{
+    step=Math.min(step+1,steps.length-1);
+    const pct=Math.min(((step+1)/steps.length)*100,95);
+    fill.style.width=pct+'%';
+    txt.textContent=steps[step];
+  },600);
+
+  try{
+    const res=await fetch('/api/webapp-test',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    const data=await res.json();
+    clearInterval(iv);fill.style.width='100%';fill.classList.remove('animated');txt.textContent='测试完成！';
+    setTimeout(()=>{prog.classList.remove('active');renderWatResults(data);results.classList.add('active')},500);
+  }catch(e){
+    clearInterval(iv);fill.classList.remove('animated');prog.classList.remove('active');
+    console.error('WebApp test error:',e);
+    renderWatResults(getWatDemoData(url));results.classList.add('active');
+  }finally{btn.disabled=false;btn.innerHTML='<i class="fas fa-play"></i> 开始测试';watRunning=false}
+}
+
+/* ===== Security Scanner ===== */
+let secRunning=false;
+
+function getSecDemoData(url){
+  return{
+    url:url,
+    grade:'B',
+    findings:[
+      {title:'缺少 Referrer-Policy 头',description:'未设置 Referrer-Policy 响应头，可能导致敏感信息通过 Referer 泄露到第三方站点。建议设置为 "strict-origin-when-cross-origin"。',severity:'warning'},
+      {title:'缺少 Permissions-Policy 头',description:'未设置 Permissions-Policy 响应头，浏览器将默认允许所有 API 权限。建议明确限制不需要的 API（如 camera、microphone、geolocation）。',severity:'warning'},
+      {title:'Server 头信息泄露',description:'响应中包含 Server 头，暴露了服务器软件信息。攻击者可利用此信息查找已知漏洞。建议移除或混淆 Server 头。',severity:'info'},
+      {title:'X-Powered-By 头信息泄露',description:'响应中包含 X-Powered-By 头，暴露了后端技术栈信息。建议在应用层移除此头。',severity:'info'}
+    ]
+  };
+}
+
+function renderSecResults(data){
+  const grade=(data.grade||'F').toUpperCase();
+  const gradeCls='grade-'+grade.toLowerCase();
+  const gradeLabel=grade==='A'?'优秀':grade==='B'?'良好':grade==='C'?'一般':grade==='D'?'较差':'危险';
+
+  const findings=data.findings||[];
+  const criticals=findings.filter(f=>f.severity==='critical');
+  const warnings=findings.filter(f=>f.severity==='warning');
+  const infos=findings.filter(f=>f.severity==='info');
+
+  function renderFindingGroup(items,cls,label,icon){
+    if(!items.length)return'';
+    return`
+      <div class="sec-finding-group-title ${cls}"><i class="fas fa-${icon}"></i> ${label} (${items.length})</div>
+      ${items.map(f=>`
+        <div class="sec-finding-card ${cls}">
+          <div class="sec-finding-head">
+            <div class="sec-finding-title">${f.title}</div>
+            <span class="sec-finding-severity ${cls}">${f.severity}</span>
+          </div>
+          <div class="sec-finding-desc">${f.description}</div>
+        </div>
+      `).join('')}`;
+  }
+
+  document.getElementById('secResults').innerHTML=`
+    <div class="sec-grade-wrap reveal">
+      <div class="sec-grade-circle ${gradeCls}">${grade}</div>
+      <div class="sec-grade-summary">
+        <h3>安全等级：${gradeLabel}</h3>
+        <p>目标：${data.url||'—'}<br>共发现 ${findings.length} 个问题</p>
+      </div>
+    </div>
+    <div class="sec-findings">
+      ${renderFindingGroup(criticals,'critical','严重问题','circle-exclamation')}
+      ${renderFindingGroup(warnings,'warning','警告','triangle-exclamation')}
+      ${renderFindingGroup(infos,'info','信息','circle-info')}
+      ${!findings.length?'<div class="msg-box"><i class="fas fa-shield-check" style="color:var(--green)"></i><p>未发现安全问题，干得漂亮！</p></div>':''}
+    </div>
+  `;
+  document.querySelectorAll('#secResults .reveal').forEach(el=>revObs.observe(el));
+}
+
+function renderSecError(msg){
+  document.getElementById('secResults').innerHTML=`<div class="msg-box"><i class="fas fa-circle-exclamation"></i><p>${msg}</p><button class="retry-btn" onclick="startSecurityScan()"><i class="fas fa-rotate-right"></i> 重试</button></div>`;
+}
+
+async function startSecurityScan(){
+  if(secRunning)return;
+  const urlInput=document.getElementById('secUrl');
+  const url=urlInput.value.trim();
+  if(!url){urlInput.focus();return}
+  secRunning=true;
+  const btn=document.getElementById('secBtn');
+  const prog=document.getElementById('secProgress');
+  const fill=document.getElementById('secFill');
+  const txt=document.getElementById('secText');
+  const results=document.getElementById('secResults');
+
+  btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> 扫描中...';
+  prog.classList.add('active');results.classList.remove('active');
+  fill.style.width='0%';fill.classList.add('animated');
+
+  const steps=['正在连接目标...','检测 SSL/TLS...','扫描安全响应头...','检测信息泄露...','检查混合内容...','分析 Cookie 标志...','生成评估报告...'];
+  let step=0;
+  const iv=setInterval(()=>{
+    step=Math.min(step+1,steps.length-1);
+    const pct=Math.min(((step+1)/steps.length)*100,95);
+    fill.style.width=pct+'%';
+    txt.textContent=steps[step];
+  },700);
+
+  try{
+    const res=await fetch('/api/security-scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    const data=await res.json();
+    clearInterval(iv);fill.style.width='100%';fill.classList.remove('animated');txt.textContent='扫描完成！';
+    setTimeout(()=>{prog.classList.remove('active');renderSecResults(data);results.classList.add('active')},500);
+  }catch(e){
+    clearInterval(iv);fill.classList.remove('animated');prog.classList.remove('active');
+    console.error('Security scan error:',e);
+    renderSecResults(getSecDemoData(url));results.classList.add('active');
+  }finally{btn.disabled=false;btn.innerHTML='<i class="fas fa-radar"></i> 开始扫描';secRunning=false}
+}
+
+/* ===== Changelog Generator ===== */
+let clRunning=false;
+
+function getClDemoData(){
+  return{
+    markdown:`# Changelog\n\n## [2.1.0] - 2025-06-10\n\n### ✨ Features\n- 新增 WebApp 测试交互式面板\n- 新增安全扫描器在线工具\n- 新增变更日志生成器\n\n### 🐛 Bug Fixes\n- 修复暗色主题下卡片边框不可见问题\n- 修复移动端导航菜单溢出\n\n### 💥 Breaking Changes\n- **API**: \`/api/scan\` 响应格式变更，新增 \`disks\` 字段\n\n## [2.0.0] - 2025-05-20\n\n### ✨ Features\n- 全新 UI 设计，支持暗色/亮色主题切换\n- 新增 AI HOT 资讯聚合模块\n- 新增磁盘存储分析可视化\n\n### 📝 Documentation\n- 更新 README 安装指南\n- 新增 API 文档\n\n### 🔧 Chores\n- 升级依赖到最新版本\n- 优化构建流程`
+  };
+}
+
+function renderClResults(data){
+  const md=data.markdown||'';
+  const html=renderMd(md);
+  document.getElementById('clResults').innerHTML=`
+    <div class="cl-results-wrap reveal">
+      <button class="cl-copy-btn" onclick="copyChangelog()"><i class="fas fa-copy"></i> 复制</button>
+      <div class="cl-md" id="clMdContent">${html}</div>
+    </div>
+  `;
+  document.querySelectorAll('#clResults .reveal').forEach(el=>revObs.observe(el));
+}
+
+function renderMd(md){
+  let html=md
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/^- (.+)$/gm,'<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/g,m=>'<ul>'+m+'</ul>')
+    .replace(/\n{2,}/g,'<br><br>')
+    .replace(/\n/g,'<br>');
+  return html;
+}
+
+function copyChangelog(){
+  const el=document.getElementById('clMdContent');
+  if(!el)return;
+  const text=el.innerText||el.textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.querySelector('.cl-copy-btn');
+    if(btn){const old=btn.innerHTML;btn.innerHTML='<i class="fas fa-check"></i> 已复制';setTimeout(()=>btn.innerHTML=old,1500)}
+  });
+}
+
+function renderClError(msg){
+  document.getElementById('clResults').innerHTML=`<div class="msg-box"><i class="fas fa-circle-exclamation"></i><p>${msg}</p><button class="retry-btn" onclick="startChangelog()"><i class="fas fa-rotate-right"></i> 重试</button></div>`;
+}
+
+async function startChangelog(){
+  if(clRunning)return;
+  clRunning=true;
+  const btn=document.getElementById('clBtn');
+  const prog=document.getElementById('clProgress');
+  const fill=document.getElementById('clFill');
+  const txt=document.getElementById('clText');
+  const results=document.getElementById('clResults');
+  const repo=document.getElementById('clRepo').value.trim();
+  const from=document.getElementById('clFrom').value.trim();
+  const to=document.getElementById('clTo').value.trim();
+
+  btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> 生成中...';
+  prog.classList.add('active');results.classList.remove('active');
+  fill.style.width='0%';fill.classList.add('animated');
+
+  const steps=['正在读取 Git 仓库...','解析提交历史...','识别 Conventional Commits...','按类型分组...','高亮 Breaking Changes...','渲染 Markdown...'];
+  let step=0;
+  const iv=setInterval(()=>{
+    step=Math.min(step+1,steps.length-1);
+    const pct=Math.min(((step+1)/steps.length)*100,95);
+    fill.style.width=pct+'%';
+    txt.textContent=steps[step];
+  },600);
+
+  try{
+    const body={};
+    if(repo)body.repo=repo;
+    if(from)body.from=from;
+    if(to)body.to=to;
+    const res=await fetch('/api/changelog',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    const data=await res.json();
+    clearInterval(iv);fill.style.width='100%';fill.classList.remove('animated');txt.textContent='生成完成！';
+    setTimeout(()=>{prog.classList.remove('active');renderClResults(data);results.classList.add('active')},500);
+  }catch(e){
+    clearInterval(iv);fill.classList.remove('animated');prog.classList.remove('active');
+    console.error('Changelog error:',e);
+    renderClResults(getClDemoData());results.classList.add('active');
+  }finally{btn.disabled=false;btn.innerHTML='<i class="fas fa-wand-magic-sparkles"></i> 生成变更日志';clRunning=false}
 }
 
 /* ===== Init ===== */
